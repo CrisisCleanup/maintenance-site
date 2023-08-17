@@ -9,7 +9,7 @@
         width: 100%;
       }
       .h-full {
-        height: 100vh;
+        height: 100%;
       }
       .text-center {
         text-align: center;
@@ -47,10 +47,21 @@
       .p {
         margin: 10px 0;
       }
+
+      .logo {
+        margin-bottom: 2rem;
+      }
+
+      #countdown {
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
     <section class="w-full h-full text-center flex flex-col justify-center items-center gap-6 p-6">
+      <div class="logo">
+        <img src="assets/ccu-logo-black-500w.png" alt="Logo" height="250">
+      </div>
       <div class="text-5xl">We'll be back soon</div>
       <div class="w-full md:w-2/3 text-2xl">
         <p>We are currently down for some scheduled (or, perhaps unscheduled) maintenance.</p>
@@ -59,7 +70,6 @@
         <p>— The Team</p>
       </div>
     </section>
-
     <script>
       const deadline = new Date(2023, 8, 19, 2, 0, 0);
       const countdownElement = document.getElementById("countdown");

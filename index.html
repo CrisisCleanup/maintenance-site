@@ -68,26 +68,38 @@
       </div>
     </section>
     <script>
-      const deadline = new Date(2023, 8, 19, 2, 0, 0);
+      ///////////////////////////////////////////////////////////////////////
+      // Set the deadline date and time
+      ///////////////////////////////////////////////////////////////////////
+      const deadline = new Date("2023-08-17T20:59:59Z").getTime();
+      ///////////////////////////////////////////////////////////////////////
       const countdownElement = document.getElementById("countdown");
+      const countdownInterval = setInterval(updateCountdown, 1000);
 
-      function msToTime(duration) {
-        let seconds = Math.floor((duration / 1000) % 60);
-        let minutes = Math.floor((duration / (1000 * 60)) % 60);
-        let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-        hours = hours < 10 ? `0${hours}` : hours;
-        minutes = minutes < 10 ? `0${minutes}` : minutes;
-        seconds = seconds < 10 ? `0${seconds}` : seconds;
-        return `${hours} hours ${minutes} minutes ${seconds} seconds`;
+      function getFormattedTimeDiff(remainingTime) {
+        // If the countdown has expired, show a message
+        if (remainingTime < 0) {
+          clearInterval(countdownInterval);
+          return "Production is back online!";
+        }
+        // Calculate days, hours, minutes, and seconds
+        const padWithZero = (n) => n < 10 ? `0${n}` : n;
+        const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+        const d = padWithZero(days)
+        const h = padWithZero(hours)
+        const m = padWithZero(minutes)
+        const s = padWithZero(seconds)
+        return `${d} days ${h} hours ${m} minutes ${s} seconds`;
       }
 
       function updateCountdown() {
-        const current = new Date();
-        const diff = deadline - current;
-        countdownElement.textContent = msToTime(diff);
+        const now = new Date().getTime();
+        const diff = deadline - now;
+        countdownElement.textContent = getFormattedTimeDiff(diff);
       }
-
-      setInterval(updateCountdown, 1000);
     </script>
   </body>
 </html>

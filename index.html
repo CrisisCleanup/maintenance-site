@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Down for Maintenance</title>
+    <style>
+      .w-full {
+        width: 100%;
+      }
+      .h-full {
+        height: 100vh;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .flex {
+        display: flex;
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .justify-center {
+        justify-content: center;
+      }
+      .items-center {
+        align-items: center;
+      }
+      .gap-6 {
+        gap: 1.5rem;
+      }
+      .p-6 {
+        padding: 1.5rem;
+      }
+      .text-5xl {
+        font-size: 3rem;
+        line-height: 1.1;
+      }
+      .w-full.md\:w-2/3 {
+        width: 100%;
+      }
+      .text-2xl {
+        font-size: 1.5rem;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+      }
+      .p {
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="w-full h-full text-center flex flex-col justify-center items-center gap-6 p-6">
+      <div class="text-5xl">We'll be back soon</div>
+      <div class="w-full md:w-2/3 text-2xl">
+        <p>We are currently down for some scheduled (or, perhaps unscheduled) maintenance.</p>
+        <p>We will be back online in: <span id="countdown"></span>.</p>
+        <p>In the meantime, let's both just take a moment to appreciate just how awesome you are... Yep, you're awesome.</p>
+        <p>— The Team</p>
+      </div>
+    </section>
+
+    <script>
+      const deadline = new Date(2023, 8, 19, 2, 0, 0);
+      const countdownElement = document.getElementById("countdown");
+
+      function msToTime(duration) {
+        let seconds = Math.floor((duration / 1000) % 60);
+        let minutes = Math.floor((duration / (1000 * 60)) % 60);
+        let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+        hours = hours < 10 ? `0${hours}` : hours;
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        return `${hours} hours ${minutes} minutes ${seconds} seconds`;
+      }
+
+      function updateCountdown() {
+        const current = new Date();
+        const diff = deadline - current;
+        countdownElement.textContent = msToTime(diff);
+      }
+
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+name: Update Deadline Date
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "New deadline date"
+        required: true
+    workflow_call:
+      inputs:
+        date:
+          description: "New deadline date"
+          required: true
+
+jobs:
+  update-date:
+    runs-on: ubuntu-latest
+    env:
+      NEW_DATE: ${{ github.event.inputs.date || inputs.date }}
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@021a2405c7f990db57f5eae5397423dcc554159c
+        with:
+          app_id: ${{ secrets.CCU_BOT_APP_ID }}
+          private_key: ${{ secrets.CCU_BOT_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          token: ${{ steps.generate_token.outputs.token }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - name: Replace date
+        run: |
+          sed -i 's|new Date(".*").getTime();|new Date("${{ env.NEW_DATE }}").getTime();|g' index.html
+
+      - name: Set git identity
+        run: |-
+          git config user.name "crisiscleanupbot"
+          git config user.email "130200872+crisiscleanupbot[bot]@users.noreply.github.com"
+
+      - name: Push changes
+        run: |-
+          git add .
+          git commit -s -m "chore(deadline): update deadline to ${{ env.NEW_DATE }}"
+
+      - name: Push Changes
+        uses: ad-m/github-push-action@c361e2bb0747df3110bdbe051b209b40766670ec
+        with:
+          github_token: ${{ steps.generate_token.outputs.token }}
+          branch: ${{ github.head_ref || github.ref }}

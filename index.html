@@ -84,7 +84,7 @@
         // If the countdown has expired, show a message
         if (remainingTime < 0) {
           clearInterval(countdownInterval);
-          return "Production is back online!";
+          return 'Production is back online! <a href="https://www.crisiscleanup.org/">Log in</a>';
         }
         // Calculate days, hours, minutes, and seconds
         const padWithZero = (n) => n < 10 ? `0${n}` : n;
@@ -102,7 +102,7 @@
       function updateCountdown() {
         const now = new Date().getTime();
         const diff = deadline - now;
-        countdownElement.textContent = getFormattedTimeDiff(diff);
+        countdownElement.innerHTML = getFormattedTimeDiff(diff);
       }
     </script>
   </body>

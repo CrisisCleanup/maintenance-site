@@ -15,4 +15,4 @@ jobs:
   deploy:
     name: Deploy
     secrets: inherit
-    uses: CrisisCleanup/infrastructure/.github/workflows/deploy.yml@main
+    uses: CrisisCleanup/infrastructure/.github/workflows/deploy-maintenance-site.yml@main
